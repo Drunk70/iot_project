@@ -5,13 +5,23 @@ import 'nprogress/nprogress.css'
 
 // 定义白名单
 const whiteList = ['/login', '/404']
+let isrouter = false
 // 路由守卫判断是否有token
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   nProgress.start() // 开启进度条
   if (store.getters.token) {
     if (to.path === '/login') {
       next('/')
     } else {
+      if (!isrouter) {
+        isrouter = true
+        const routes = await store.dispatch('permission/filterRoutes')
+        // router.options.routes = routes;
+        router.addRoutes(routes)
+        console.log('当前路由', router, routes)
+        // next(to.path)
+        next({ ...to, replace: true })
+      }
       next()
     }
   } else {
@@ -63,7 +73,6 @@ router.afterEach(() => {
 //         try {
 //           // get user info
 //           await store.dispatch('user/getInfo')
-
 //           next()
 //         } catch (error) {
 //           // remove token and go to login page to re-login

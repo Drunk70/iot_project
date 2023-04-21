@@ -1,6 +1,6 @@
 import service from '@/utils/request'
 
-export function setlogin(data) {
+export function setlogin(data) { // 登录api
   return service({
     url: '/base/baseInfo/baseUserLogin',
     method: 'post',
@@ -8,6 +8,10 @@ export function setlogin(data) {
   })
 }
 
-export function getInfo(token) {}
-
-export function logout() {}
+export function logout(data) {
+  return service({
+    url: '/base/baseInfo/baseUserLogout',
+    method: 'post',
+    data
+  })
+}

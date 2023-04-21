@@ -7,10 +7,14 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <!-- 图片失效时自定义指令 -->
+          <img v-imgError="defaultImg" :src="userInfo.userLogo" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
+          <el-dropdown-item>
+            {{ userInfo.userName }}
+          </el-dropdown-item>
           <router-link to="/">
             <el-dropdown-item>
               Home
@@ -23,7 +27,7 @@
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -41,10 +45,17 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      // 图片失效时替代图片路径
+      defaultImg: require('@/icons/tb.1.48f0ee7a.jpg')
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'userInfo'
     ])
   },
   methods: {
@@ -52,7 +63,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      await this.$store.dispatch('user/logquit')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
