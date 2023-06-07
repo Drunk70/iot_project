@@ -9,12 +9,12 @@ export default {
   children: [
     {
       path: 'user',
-      component: () => import('@/views/system/userinfo.vue'),
+      component: () => import('@/views/system/index.vue'),
       meta: { title: '用户信息', percode: '0101' }
     },
     {
       path: 'role',
-      component: () => import('@/views/system/role.vue'),
+      component: () => import('@/views/system/role/index.vue'),
       meta: { title: '角色信息', percode: '0102' }
     }
   ]

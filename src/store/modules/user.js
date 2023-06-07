@@ -1,7 +1,8 @@
 // 引入存储cookie方法，实现持久化
-import { CookieGetToken, CookieSetToken, CookieRemoveToken } from '@/utils/auth'
+import { CookieGetToken, CookieSetToken, CookieRemoveToken, setTimeStamp } from '@/utils/auth'
 // 引入接口
 import { setlogin, logout } from '@/api/user'
+import { resetRouter } from '@/router'
 const state = {
   token: CookieGetToken(), // 初始化vuex时先从缓存中取token
   userInfo: {},
@@ -36,6 +37,7 @@ const actions = {
       try {
         // api成功调用存储方法
         context.commit('setToken', res.token)
+        setTimeStamp()// 设置当前的时间戳
         context.commit('setUserInfo', res.userInfo)
         context.commit('setmenuPermCodes', res.menuPermCodes)
         return res.userInfo
@@ -48,6 +50,8 @@ const actions = {
   async logquit(context) {
     await logout(state.userInfo.userName)
     context.commit('removeToken')
+    resetRouter() // 重置路由
+    context.commit('permission/setRoutes', [], { root: true })
   }
 
 }

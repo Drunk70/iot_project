@@ -12,8 +12,7 @@ export default {
       path: 'info',
       name: 'info',
       component: () => import('@/views/device'),
-      meta: { title: '二级', percode: '1101' }
-
+      meta: { title: '产品', percode: '1101' }
     }
   ]
 }
